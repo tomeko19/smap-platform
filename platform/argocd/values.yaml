@@ -1,0 +1,27 @@
+global:
+  domain: argocd.local
+
+server:
+  service:
+    type: NodePort
+    nodePortHttp: 30080
+
+  extraArgs:
+    - --insecure
+
+configs:
+  params:
+    server.insecure: true
+
+controller:
+  replicas: 1
+
+repoServer:
+  replicas: 1
+
+applicationSet:
+  replicaCount: 1
+
+redis:
+  enabled: true
+
