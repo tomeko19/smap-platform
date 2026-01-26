@@ -1,0 +1,28 @@
+image:
+  repository: kong
+  tag: "3.9"
+
+env:
+  database: "off"
+  nginx_worker_processes: "1"
+  KONG_LOG_LEVEL: notice
+
+proxy:
+  enabled: true
+  type: NodePort
+  http:
+    enabled: true
+    servicePort: 80
+    nodePort: 30081
+
+admin:
+  enabled: true
+  type: ClusterIP
+
+ingressController:
+  enabled: true
+  installCRDs: true
+
+plugins:
+  configMaps: []
+  secrets: []

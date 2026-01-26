@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kong-app
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  sources:
+    - repoURL: "https://charts.konghq.com"
+      chart: kong
+      targetRevision: 2.45.0
+      helm:
+        valueFiles:
+          - values.yaml
+          - $customValues/platform/kong/values.yaml
+    - repoURL: "https://github.com/tomeko19/smap-platform.git"
+      targetRevision: dev
+      ref: customValues
+      directory:
+        recurse: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ingress
+  project: smap
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2

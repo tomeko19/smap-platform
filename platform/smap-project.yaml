@@ -1,0 +1,52 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: smap
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: smap-platform
+spec:
+  description: SMAP Platform - Secure Multi-Tenant Cloud-Native Platform
+  destinations:
+  # Autoriser tous les namespaces
+  - namespace: '*'
+    server: https://kubernetes.default.svc
+  # Spécifiques pour être sûr
+  - namespace: platform
+    server: https://kubernetes.default.svc
+  - namespace: apps
+    server: https://kubernetes.default.svc
+  - namespace: argocd
+    server: https://kubernetes.default.svc
+  - namespace: monitoring
+    server: https://kubernetes.default.svc
+  - namespace: ingress
+    server: https://kubernetes.default.svc
+  - namespace: default
+    server: https://kubernetes.default.svc
+  
+  # Autoriser tous les repos
+  sourceRepos:
+  - '*'
+  - https://github.com/*
+  - https://charts.konghq.com
+  - https://argoproj.github.io/argo-helm
+  - https://github.com/tomeko19/smap-platform.git
+  
+  # Autoriser toutes les ressources cluster
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  
+  # Autoriser toutes les ressources namespace
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  
+  # Permissions
+  roles:
+  - name: admin
+    description: Platform Administrator
+    policies:
+    - p, proj:smap:admin, applications, *, smap/*, allow
+    - p, proj:smap:admin, applications, *, smap/*, delete
