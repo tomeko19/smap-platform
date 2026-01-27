@@ -1,43 +1,40 @@
-image:
-  repository: kong
-  tag: "3.9"
-
 env:
   database: "off"
-  nginx_worker_processes: "1"
-  KONG_LOG_LEVEL: notice
-  KONG_DECLARATIVE_CONFIG: /kong_dbless/kong.yml
+  declarative_config: "/config/kong.yml"
+  proxy_access_log: /dev/stdout
+  admin_access_log: /dev/stdout
+  admin_gui_access_log: /dev/stdout
+  portal_api_access_log: /dev/stdout
+  proxy_error_log: /dev/stderr
+  admin_error_log: /dev/stderr
+  admin_gui_error_log: /dev/stderr
+  portal_api_error_log: /dev/stderr
   admin_gui_url: "http://34.154.111.227:8002"
+  admin_gui_api_url: "http://34.154.244.170:8001"
+  admin_listen: "0.0.0.0:8444 ssl, 0.0.0.0:8001"
+
+ingressController:
+  enabled: false
+
+manager:
+  enabled: true
+  type: NodePort
+
+admin:
+  enabled: true
+  type: NodePort
+  http:
+    enabled: true
+    servicePort: 8001
 
 proxy:
   enabled: true
   type: NodePort
   http:
     enabled: true
-    servicePort: 80
-    nodePort: 30081
+    servicePort: 8000
 
-admin:
-  enabled: true
-  type: ClusterIP
-
-ingressController:
-  enabled: false
-  installCRDs: false
-
-plugins:
-  configMaps: []
-  secrets: []
-
-extraVolumes:
-  - name: kong-dbless-config
-    configMap:
-      name: kong-config
-      items:
-        - key: kong.yml
-          path: kong.yml
-
-extraVolumeMounts:
-  - name: kong-dbless-config
-    mountPath: /kong_dbless
-    readOnly: true
+extraConfigMaps:
+- name: kong-config
+  mountPath: /config/kong.yml
+  subPath: kong.yml
