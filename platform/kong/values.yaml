@@ -30,15 +30,7 @@ plugins:
   configMaps: []
   secrets: []
 
-extraVolumes:
-  - name: kong-dbless-config
-    configMap:
-      name: kong
-      items:
-        - key: kong.yml
-          path: kong.yml
-
-extraVolumeMounts:
-  - name: kong-dbless-config
-    mountPath: /kong_dbless
-    readOnly: true
+extraConfigMaps:
+- name: kong-config
+  mountPath: /config/kong.yml
+  subPath: kong.yml
