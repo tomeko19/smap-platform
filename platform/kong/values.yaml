@@ -6,6 +6,9 @@ env:
   database: "off"
   nginx_worker_processes: "1"
   KONG_LOG_LEVEL: notice
+  KONG_DECLARATIVE_CONFIG: /kong_dbless/kong.yml
+  admin_gui_url: "http://34.154.111.227:8002"
+
 
 proxy:
   enabled: true
@@ -26,3 +29,16 @@ ingressController:
 plugins:
   configMaps: []
   secrets: []
+
+extraVolumes:
+  - name: kong-dbless-config
+    configMap:
+      name: kong-dbless
+      items:
+        - key: kong.yml
+          path: kong.yml
+
+extraVolumeMounts:
+  - name: kong-dbless-config
+    mountPath: /kong_dbless
+    readOnly: true

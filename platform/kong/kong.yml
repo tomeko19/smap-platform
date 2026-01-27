@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Configmap
+metadata:
+  name: kong
+  namespace: ingress
+data:
+  kong.yml: |
+    _format_version: "3.0"
+
+    services:
+      - name: echo-service
+        routes:
+          - name: example-routes
+            paths:
+              - /echo  
+
