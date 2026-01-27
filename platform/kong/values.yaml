@@ -23,8 +23,8 @@ admin:
   type: ClusterIP
 
 ingressController:
-  enabled: true
-  installCRDs: true
+  enabled: false
+  installCRDs: false
 
 plugins:
   configMaps: []
