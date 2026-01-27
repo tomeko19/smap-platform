@@ -6,12 +6,10 @@ metadata:
 data:
   kong.yml: |
     _format_version: "3.0"
-
     services:
       - name: echo-service
-        url: http://example.com
+        url: http://echo.default.svc.cluster.local:80
         routes:
-          - name: example-routes
+          - name: echo-route
             paths:
-              - /echo  
-
+              - /echo

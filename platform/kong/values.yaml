@@ -9,7 +9,6 @@ env:
   KONG_DECLARATIVE_CONFIG: /kong_dbless/kong.yml
   admin_gui_url: "http://34.154.111.227:8002"
 
-
 proxy:
   enabled: true
   type: NodePort
@@ -30,7 +29,15 @@ plugins:
   configMaps: []
   secrets: []
 
-extraConfigMaps:
-- name: kong-config
-  mountPath: /config/kong.yml
-  subPath: kong.yml
+extraVolumes:
+  - name: kong-dbless-config
+    configMap:
+      name: kong-config
+      items:
+        - key: kong.yml
+          path: kong.yml
+
+extraVolumeMounts:
+  - name: kong-dbless-config
+    mountPath: /kong_dbless
+    readOnly: true
