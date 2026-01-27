@@ -33,7 +33,7 @@ plugins:
 extraVolumes:
   - name: kong-dbless-config
     configMap:
-      name: kong-dbless
+      name: kong
       items:
         - key: kong.yml
           path: kong.yml
