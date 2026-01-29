@@ -6,9 +6,9 @@ metadata:
 spec:
   project: smap
   sources:
-    - repoURL: https://charts.bitnami.com/bitnami
+    - repoURL: https://codecentric.github.io/helm-charts
       chart: keycloak
-      targetRevision: 25.1.2
+      targetRevision: 24.0.0
       helm:
         valueFiles:
           - values.yaml
