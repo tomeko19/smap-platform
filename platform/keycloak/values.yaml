@@ -16,8 +16,4 @@ http:
   relativePath: /auth
 
 postgresql:
-  enabled: true
-  auth:
-    username: keycloak
-    password: keycloak
-    database: keycloak
+  enabled: false
