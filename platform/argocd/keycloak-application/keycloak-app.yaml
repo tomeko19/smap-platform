@@ -18,11 +18,19 @@ spec:
       ref: customValues
       directory:
         recurse: false    
-      destination:
-        server: https://kubernetes.default.svc
-        namespace: smap
-        createNamespace: true
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: smap
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2  

@@ -4,5 +4,34 @@ auth:
 
 production: false
 
-adminRealm: "master"
+# Optionnel : si tu veux un realm admin différent
+# adminRealm: "master"  # Garde master par défaut
 
+postgresql:
+  enabled: true
+  auth:
+    # Mot de passe pour l'utilisateur postgres (superadmin)
+    postgresPassword: "bn_keycloak"
+    
+    # Utilisateur normal pour Keycloak
+    username: bn_keycloak
+    password: "bn_keycloak"
+    database: bitnami_keycloak
+  
+  # FORCER UNE VERSION QUI EXISTE
+  image:
+    registry: docker.io
+    repository: bitnami/postgresql
+    tag: 16.4.0-debian-12-r7  # ✓ Cette version existe
+    pullPolicy: IfNotPresent
+  
+  # Configuration de persistence (optionnel mais recommandé)
+  persistence:
+    enabled: true
+    size: 8Gi
+  
+  # Ressources (optionnel)
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 250m
