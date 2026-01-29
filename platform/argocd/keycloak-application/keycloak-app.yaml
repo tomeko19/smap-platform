@@ -6,9 +6,9 @@ metadata:
 spec:
   project: smap
   sources:
-    - repoURL: https://codecentric.github.io/helm-charts
+    - repoURL: https://charts.lenity.io 
       chart: keycloak
-      targetRevision: 24.0.0
+      targetRevision: 26.5.2
       helm:
         valueFiles:
           - values.yaml

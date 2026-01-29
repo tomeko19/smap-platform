@@ -1,27 +1,25 @@
-# values-codecentric.yaml
+# values-lenity.yaml
+global:
+  # Lenity utilise souvent des images depuis leur registry
+  imageRegistry: "registry.lenity.io"
+
 keycloak:
-  username: smap
-  password: smap
+  enabled: true
+  auth:
+    adminUser: smap
+    adminPassword: smap
   
-  # PostgreSQL inclus
+  # Lenity a souvent une configuration différente
+  # Vérifie leur documentation
   postgresql:
     enabled: true
-    postgresqlUsername: bn_keycloak
-    postgresqlPassword: bn_keycloak
-    postgresqlDatabase: bitnami_keycloak
-  
-  # Ou utiliser une DB externe
-  # externalDatabase:
-  #   host: postgresql
-  #   port: 5432
+    auth:
+      username: keycloak
+      password: "bn_keycloak"
+      database: keycloak
   
   ingress:
     enabled: true
     className: "kong"
-    hostname: keycloak.example.com
-
-  # Ressources
-  resources:
-    requests:
-      memory: "512Mi"
-      cpu: "500m"
+    hosts:
+      - keycloak.example.com
