@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keycloak
+  namespace: argocd
+spec:
+  project: smap
+  sources:
+    - repoURL: https://charts.bitnami.com/bitnami
+      chart: keycloak
+      targetRevision: 25.1.2
+      helm:
+        valueFiles:
+          - values.yaml
+          - $customValues/platform/keycloak/values.yaml
+    - repoURL: "https://github.com/tomeko19/smap-platform.git"
+      targetRevision: dev
+      ref: customValues
+      directory:
+        recurse: false    
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: smap
+        createNamespace: true
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
