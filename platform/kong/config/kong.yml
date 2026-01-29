@@ -13,3 +13,6 @@ data:
           - name: echo-route
             paths:
               - /echo
+          - name: hello.route
+            paths:
+              - /hello    
