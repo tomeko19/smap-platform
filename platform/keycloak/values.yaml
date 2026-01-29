@@ -1,25 +1,23 @@
-# values-lenity.yaml
-global:
-  # Lenity utilise souvent des images depuis leur registry
-  imageRegistry: "registry.lenity.io"
+image:
+  repository: quay.io/keycloak/keycloak
+  tag: "24.0.1"
 
-keycloak:
+command:
+  - "/opt/keycloak/bin/kc.sh"
+  - "start-dev"
+
+auth:
+  adminUser: admin
+  adminPassword: admin
+
+proxy: edge
+
+http:
+  relativePath: /auth
+
+postgresql:
   enabled: true
   auth:
-    adminUser: smap
-    adminPassword: smap
-  
-  # Lenity a souvent une configuration différente
-  # Vérifie leur documentation
-  postgresql:
-    enabled: true
-    auth:
-      username: keycloak
-      password: "bn_keycloak"
-      database: keycloak
-  
-  ingress:
-    enabled: true
-    className: "kong"
-    hosts:
-      - keycloak.example.com
+    username: keycloak
+    password: keycloak
+    database: keycloak
