@@ -4,7 +4,7 @@ image:
 
 command:
   - "/opt/keycloak/bin/kc.sh"
-  - "start-dev"
+  - "start"
 
 auth:
   adminUser: admin
@@ -13,14 +13,20 @@ auth:
 proxy: edge
 
 http:
-  relativePath: /auth
+  relativePath: /
 
 postgresql:
   enabled: false
 
+extraEnv:
+  - name: KC_HTTP_ENABLED
+    value: "true"
+  - name: KC_HTTP_PORT
+    value: "8080"
+
 startupProbe:
   httpGet:
-    path: /auth/health/started
+    path: /health/started
     port: http
   initialDelaySeconds: 30
   failureThreshold: 120
@@ -28,20 +34,14 @@ startupProbe:
 
 readinessProbe:
   httpGet:
-    path: /auth/health/ready
+    path: /health/ready
     port: http
   initialDelaySeconds: 30
   periodSeconds: 10
 
 livenessProbe:
   httpGet:
-    path: /auth/health/live
+    path: /health/live
     port: http
   initialDelaySeconds: 30
   periodSeconds: 10
-
-extraEnv: |
-  - name: KC_HTTP_ENABLED
-    value: "true"
-  - name: KC_HTTP_PORT
-    value: "8080"
