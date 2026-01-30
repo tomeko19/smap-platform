@@ -18,27 +18,28 @@ http:
 postgresql:
   enabled: false
 
-startupProbe: |
+startupProbe:
   httpGet:
-    path: /health/started
+    path: /auth/health/started
     port: http
   initialDelaySeconds: 30
-  failureThreshold: 120  
+  failureThreshold: 120
   periodSeconds: 5
 
-readinessProbe: |
+readinessProbe:
   httpGet:
-    path: /health/ready
+    path: /auth/health/ready
     port: http
   initialDelaySeconds: 30
   periodSeconds: 10
 
-livenessProbe: |
+livenessProbe:
   httpGet:
-    path: /health/live
+    path: /auth/health/live
     port: http
   initialDelaySeconds: 30
   periodSeconds: 10
+
 extraEnv: |
   - name: KC_HTTP_ENABLED
     value: "true"
