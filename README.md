@@ -1,6 +1,4 @@
 # smap-platform
-Voici une description en anglais, pensée pour être utilisée dans ton README GitHub, sur ton CV, et en entretien.
-Elle est claire, senior, orientée plateforme, sans buzzwords inutiles.
 
 Secure Multi-Tenant Cloud-Native Platform (SMAP)
 Project Overview
