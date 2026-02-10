@@ -28,3 +28,27 @@ extraEnv: |
   - name: KC_HTTP_PORT
     value: "8080"
 
+livenessProbe: |
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 30
+  timeoutSeconds: 5
+
+readinessProbe: |
+  httpGet:
+    path: /realms/master
+    port: http
+  initialDelaySeconds: 30
+  timeoutSeconds: 5
+
+startupProbe: |
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 30
+  timeoutSeconds: 5
+  failureThreshold: 60
+  periodSeconds: 5
+
+
