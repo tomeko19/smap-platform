@@ -28,25 +28,3 @@ extraEnv: |
   - name: KC_HTTP_PORT
     value: "8080"
 
-keycloak:
-  startupProbe:
-    httpGet:
-      path: /q/health/started
-      port: http
-    initialDelaySeconds: 30
-    failureThreshold: 120
-    periodSeconds: 5
-
-  readinessProbe:
-    httpGet:
-      path: /q/health/ready
-      port: http
-    initialDelaySeconds: 30
-    periodSeconds: 10
-
-  livenessProbe:
-    httpGet:
-      path: /q/health/live
-      port: http
-    initialDelaySeconds: 30
-    periodSeconds: 10
