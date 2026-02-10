@@ -16,3 +16,13 @@ data:
           - name: hello.route
             paths:
               - /hello    
+
+    consumers:
+      - username: inventory-service
+        custom_id: inventory
+
+    jwt_secrets:
+      - consumer: inventory-service
+        key: inventory-issuer
+        secret: super-secret-key
+        algorithm: HS256       
