@@ -51,4 +51,4 @@ extraConfigMaps:
 
 extraSecrets:
   - name: kong-token-inject-secret
-    mountPath: /etc/secret/admin 
+    mountPath: /etc/secrets/admin 
