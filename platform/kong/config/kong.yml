@@ -37,13 +37,13 @@ data:
               - POST
             paths:
               - /logging/v1
+            strip_path: false  
 
             plugins:
-              - name: key-auth
+              - name: inject-admin-token
                 config:
-                  key_names:
-                    - apikey
-                  hide_credentials: true                 
+                  token_url: http://keycloak-http.smap.svc.cluster.local:80/realms/master/protocol/openid-connect/token       
+                          
 
     consumers:
       - username: inventory-service

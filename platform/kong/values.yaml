@@ -12,6 +12,7 @@ env:
   admin_gui_url: "http://34.154.111.227:8002"
   admin_gui_api_url: "http://34.154.244.170:8001"
   admin_listen: "0.0.0.0:8444 ssl, 0.0.0.0:8001"
+  KONG_LUA_PACKAGE_PATH: "/opt/kong/plugins/?.lua;/opt/kong/plugins/?/init.lua;;"
 
 plugins:
   names:
