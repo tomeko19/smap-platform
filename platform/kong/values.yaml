@@ -13,6 +13,15 @@ env:
   admin_gui_api_url: "http://34.154.244.170:8001"
   admin_listen: "0.0.0.0:8444 ssl, 0.0.0.0:8001"
 
+plugins:
+  names:
+    - bundled
+    - inject-admin-token
+
+  ConfigMaps:
+    - pluginName: inject-admin-token
+      name: kong-inject-admin-token     
+
 ingressController:
   enabled: false
 

@@ -8,14 +8,42 @@ data:
     _format_version: "3.0"
     services:
       - name: echo-service
-        url: http://echo.default.svc.cluster.local:80
+        url: http://keycloak-http.smap.svc.cluster.local:80
         routes:
           - name: echo-route
             paths:
               - /echo
           - name: hello.route
             paths:
-              - /hello    
+              - /hello
+        plugins:
+          - name: jwt
+            config:
+              secret_is_base64: false
+              run_on_preflight: true
+              key_claim_name: iss
+              claims_to_verify:
+                - exp
+
+          - name: inject-admin-token
+            config:
+              token_url: http://keycloak-http.smap.svc.cluster.local:80/realms/master/protocol/openid-connect/token       
+
+      - name: logging-service
+        url: http://keycloak-http.smap.svc.cluster.local:80
+        routes:
+          - name: logging-route
+            methods:
+              - POST
+            paths:
+              - /logging/v1
+
+            plugins:
+              - name: key-auth
+                config:
+                  key_names:
+                    - apikey
+                  hide_credentials: true                 
 
     consumers:
       - username: inventory-service
