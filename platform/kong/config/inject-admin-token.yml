@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: kong-inject-admin-token
-  namespace: smap
+  namespace: ingress
 data:
   handler.lua: |
     local http = require "resty.http"
@@ -20,7 +20,7 @@ data:
     end
 
     local plugin = {
-      PRIORITY = 900
+      PRIORITY = 900,
       VERSION = "1.0",
     }
 

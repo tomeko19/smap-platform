@@ -48,3 +48,7 @@ extraConfigMaps:
 - name: kong-config
   mountPath: /config/kong.yml
   subPath: kong.yml
+
+extraSecrets:
+  - name: kong-token-inject-secret
+    mountPath: /etc/secret/admin 
