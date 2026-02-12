@@ -19,9 +19,9 @@ plugins:
     - bundled
     - inject-admin-token
 
-  ConfigMaps:
+  configMaps:
     - pluginName: inject-admin-token
-      name: kong-inject-admin-token     
+      name: kong-inject-admin-token    
 
 ingressController:
   enabled: false
