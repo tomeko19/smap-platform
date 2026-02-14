@@ -29,7 +29,7 @@ data:
       kong.log.inspect("token_url: " .. plugin_conf.token_url)
 
       -- 1) read client_id, username, password from secret
-      local base_path = "/etc/secrets/admin"
+      local base_path = "/etc/secrets/admin/"
       local client_id = read_file(base_path .. "CLIENT_ID")
       local username = read_file(base_path .. "USERNAME")
       local password = read_file(base_path .. "PASSWORD")
@@ -46,6 +46,9 @@ data:
       kong.log.err(" PASSWORD not found or empty at ", base_path .. "PASSWORD")
         return kong.response.exit(500, { message = "PASSWORD not configured" })
       end  
+
+      kong.log.inspect("client_id (from file): ", client_id)
+      kong.log.inspect("username (from file): ", username)
 
       -- 2) perform HTTP POST to retrieve token 
       local httpc = http.new()

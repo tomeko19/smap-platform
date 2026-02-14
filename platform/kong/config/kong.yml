@@ -37,7 +37,7 @@ data:
               - POST
             paths:
               - /logging/v1
-            strip_path: false  
+            strip_path: true  
 
             plugins:
               - name: inject-admin-token
