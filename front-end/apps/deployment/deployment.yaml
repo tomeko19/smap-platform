@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oauth2-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oauth2-client
+  template:
+    metadata:
+      labels:
+        app: oauth2-client
+    spec:
+      containers:
+      - name: client
+        image: tomeko/oauth2-client:latest
+        ports:
+        - containerPort: 3000
