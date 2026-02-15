@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: client
-        image: localhost:5000/tomeko/oauth2-client:1.1.0
+        image: k3d-tomeko:5000/tomeko/oauth2-client:1.1.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
