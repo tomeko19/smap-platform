@@ -1,5 +1,12 @@
 FROM node:18-alpine
+
 WORKDIR /app
-RUN npm install express openid-client
-COPY server.js .
-cmd ["node", "server.js"]
+
+RUN npm init -y \
+  && npm install express express-session openid-client
+
+COPY server.js ./server.js
+
+EXPOSE 3000
+
+CMD ["node", "server.js"]
