@@ -1,7 +1,8 @@
-const express = require('express');
-const { Issuer, generators } = require('openid-client');
-const app = express();
+// server.js - Version ESM
+import express from 'express';
+import { Issuer, generators } from 'openid-client';
 
+const app = express();
 let client;
 let codeVerifier;
 
