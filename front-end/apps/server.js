@@ -1,67 +1,72 @@
 import express from "express";
 import crypto from "crypto";
-import { discovery, generators } from "openid-client";
+import { discovery } from "openid-client";
 
 const app = express();
 const PORT = 3000;
 
-// URL "realm" (sans /.well-known), accessible depuis le POD
-// Exemple via Kong: http://kong.../logging/v1/realms/smap-platform
+// URL du realm Keycloak (accessible depuis le POD)
 const ISSUER_BASE =
   process.env.ISSUER_BASE ||
   "http://kong-app-kong-proxy.ingress.svc.cluster.local:8000/logging/v1/realms/smap-platform";
 
 const CLIENT_ID = process.env.CLIENT_ID || "smap-client";
 
-// URL publique (vue par TON navigateur) — ici ton Ingress host
+// URL publique (celle que TON navigateur utilise)
 const BASE_URL = process.env.BASE_URL || "http://smap-dev.ingress.local";
 const REDIRECT_URI = `${BASE_URL}/callback`;
 
-// store simple (dev)
+// state -> code_verifier (store dev)
 const pkceStore = new Map();
 
-function randomState() {
-  return crypto.randomBytes(16).toString("hex");
+function base64url(input) {
+  return input
+    .toString("base64")
+    .replace(/=/g, "")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_");
+}
+
+function randomString(bytes = 32) {
+  return base64url(crypto.randomBytes(bytes));
+}
+
+function sha256base64url(str) {
+  return base64url(crypto.createHash("sha256").update(str).digest());
 }
 
 let client;
 
 async function init() {
-  // discovery() prend l'issuer (base realm) et fait le fetch du well-known
-  const config = await discovery(new URL(ISSUER_BASE), CLIENT_ID);
-
-  // client "public" PKCE: pas de secret
-  client = config;
-  console.log("OIDC discovery OK for:", ISSUER_BASE);
+  client = await discovery(new URL(ISSUER_BASE), CLIENT_ID);
+  console.log("OIDC discovery OK:", ISSUER_BASE);
   console.log("Redirect URI:", REDIRECT_URI);
 }
 
 app.get("/", (_req, res) => {
   res.send(`
     <h3>SMAP OAuth2 Client</h3>
-    <ul>
-      <li><a href="/login">Login</a></li>
-      <li><a href="/me">Show claims (after login)</a></li>
-    </ul>
+    <a href="/login">Login</a>
   `);
 });
 
-app.get("/login", (req, res) => {
-  const code_verifier = generators.codeVerifier();
-  const code_challenge = generators.codeChallenge(code_verifier);
-  const state = randomState();
+app.get("/login", (_req, res) => {
+  const state = randomString(16);
+  const code_verifier = randomString(48);
+  const code_challenge = sha256base64url(code_verifier);
 
   pkceStore.set(state, code_verifier);
 
-  const authUrl = client.authorizationUrl({
+  const url = client.authorizationUrl({
     redirect_uri: REDIRECT_URI,
     scope: "openid profile email",
+    response_type: "code",
+    state,
     code_challenge,
     code_challenge_method: "S256",
-    state,
   });
 
-  res.redirect(authUrl);
+  res.redirect(url);
 });
 
 app.get("/callback", async (req, res) => {
@@ -71,7 +76,7 @@ app.get("/callback", async (req, res) => {
 
     const code_verifier = pkceStore.get(state);
     if (!code_verifier) {
-      return res.status(400).json({ error: "Missing/invalid state" });
+      return res.status(400).json({ error: "Invalid state" });
     }
     pkceStore.delete(state);
 
@@ -85,10 +90,6 @@ app.get("/callback", async (req, res) => {
   } catch (e) {
     res.status(500).json({ error: e.message || String(e) });
   }
-});
-
-app.get("/me", (_req, res) => {
-  res.send("Login first: go to /login");
 });
 
 init().then(() => app.listen(PORT, () => console.log(`Listening on ${PORT}`)));
