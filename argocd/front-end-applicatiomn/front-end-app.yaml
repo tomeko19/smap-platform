@@ -1,20 +1,27 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Application
 metadata:
-  name: oauth2-client
+  name: front-end-app
+  namespace: argocd
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: oauth2-client
-  template:
-    metadata:
-      labels:
-        app: oauth2-client
-    spec:
-      containers:
-      - name: client
-        image: k3d-tomeko:5000/tomeko/oauth2-client:1.1.0
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 3000
+  project: smap
+  source:
+    repoURL: "https://github.com/tomeko19/smap-platform.git"
+    targetRevision: dev
+    path: front-end/apps/deployment    
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: smap
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2  
