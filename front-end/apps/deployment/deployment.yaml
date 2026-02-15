@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: client
-        image: tomeko/oauth2-client:latest
+        image: tomeko/oauth2-client:1.1.0
         ports:
         - containerPort: 3000
