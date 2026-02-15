@@ -2,11 +2,10 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-RUN npm init -y \
-  && npm install express express-session openid-client
+COPY package.json package-lock.json* ./
+RUN npm install --omit=dev
 
-COPY server.js ./server.js
+COPY server.js ./
 
 EXPOSE 3000
-
 CMD ["node", "server.js"]
