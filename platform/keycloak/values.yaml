@@ -30,21 +30,21 @@ extraEnv: |
 
 livenessProbe: |
   httpGet:
-    path: /iam/
+    path: /
     port: http
   initialDelaySeconds: 30
   timeoutSeconds: 5
 
 readinessProbe: |
   httpGet:
-    path: /iam/realms/master
+    path: /realms/master
     port: http
   initialDelaySeconds: 30
   timeoutSeconds: 5
 
 startupProbe: |
   httpGet:
-    path: /iam/
+    path: /
     port: http
   initialDelaySeconds: 30
   timeoutSeconds: 5
