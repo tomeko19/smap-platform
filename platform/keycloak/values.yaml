@@ -13,7 +13,7 @@ auth:
 proxy: edge
 
 http:
-  relativePath: /
+  relativePath: /iam
 
 postgresql:
   enabled: false
@@ -30,21 +30,21 @@ extraEnv: |
 
 livenessProbe: |
   httpGet:
-    path: /
+    path: /iam/
     port: http
   initialDelaySeconds: 30
   timeoutSeconds: 5
 
 readinessProbe: |
   httpGet:
-    path: /realms/master
+    path: /iam/realms/master
     port: http
   initialDelaySeconds: 30
   timeoutSeconds: 5
 
 startupProbe: |
   httpGet:
-    path: /
+    path: /iam/
     port: http
   initialDelaySeconds: 30
   timeoutSeconds: 5

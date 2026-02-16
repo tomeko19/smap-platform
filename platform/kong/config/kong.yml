@@ -50,7 +50,15 @@ data:
         routes:
           - name: iam-route
             paths: ["/iam"]
-            strip_path: true                   
+            strip_path: true   
+
+      - name: keycloak-static
+        url: http://keycloak-http.smap.svc.cluster.local:80
+        routes:
+          - name: keycloak-resources
+            paths:
+              - /resources
+            strip_path false                        
                           
 
     consumers:
