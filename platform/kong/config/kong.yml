@@ -42,7 +42,15 @@ data:
             plugins:
               - name: inject-admin-token
                 config:
-                  token_url: http://keycloak-http.smap.svc.cluster.local:80/realms/master/protocol/openid-connect/token       
+                  token_url: http://keycloak-http.smap.svc.cluster.local:80/realms/master/protocol/openid-connect/token 
+
+
+      - name: iam-service
+        url:  http://keycloak-http.smap.svc.cluster.local:80
+        routes:
+          - name: iam-route
+            paths: ["/iam"]
+            strip_path: true                   
                           
 
     consumers:
