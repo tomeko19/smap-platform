@@ -12,12 +12,12 @@ const CLIENT_ID = process.env.CLIENT_ID || "smap-client";
 // Tes endpoints Keycloak via Kong (HTTP OK)
 const AUTHORIZATION_ENDPOINT =
   process.env.AUTHORIZATION_ENDPOINT ||
-  "http://kong-app-kong-proxy.ingress.svc.cluster.local:8000/logging/v1/realms/smap-platform/protocol/openid-connect/auth";
-
+    "http://kong-dev.ingress.local/logging/v1/realms/smap-platform/protocol/openid-connect/auth";
+  
 const TOKEN_ENDPOINT =
   process.env.TOKEN_ENDPOINT ||
-  "http://kong-app-kong-proxy.ingress.svc.cluster.local:8000/logging/v1/realms/smap-platform/protocol/openid-connect/token";
-
+      "http://kong-dev.ingress.local/logging/v1/realms/smap-platform/protocol/openid-connect/token";
+ 
 const pkceStore = new Map();
 
 function base64url(buf) {
