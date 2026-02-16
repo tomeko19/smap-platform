@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: oauth2-client
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   rules:
   - host: smap-dev.ingress.local
     http:
