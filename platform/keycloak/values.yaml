@@ -27,6 +27,12 @@ extraEnv: |
     value: "true"
   - name: KC_HTTP_PORT
     value: "8080"
+  - name: KC_HOSTNAME
+    value: "kong-dev.ingress.local"
+
+  - name: KC_HOSTNAME_ADMIN
+    value: "kong-dev.ingress.local"
+  
 
 livenessProbe: |
   httpGet:
